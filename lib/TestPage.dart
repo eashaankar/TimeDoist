@@ -49,10 +49,10 @@ class _TestPageState extends State<TestPage> {
                 .child(taskfirename)
                 .set(customController.text)
                 .asStream();
-            customController.clear();
+
             Navigator.of(context).pop(customController.text.toString());
             final snackBar = SnackBar(
-              content: Text('Added' + customController.text.toString()),
+              content: Text('Added ' + customController.text),
               action: SnackBarAction(
                 label: 'Undo',
                 onPressed: () {
@@ -60,7 +60,7 @@ class _TestPageState extends State<TestPage> {
                 },
               ),
             );
-
+            customController.clear();
             // Find the ScaffoldMessenger in the widget tree
             // and use it to show a SnackBar.
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
