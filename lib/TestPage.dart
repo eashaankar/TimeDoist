@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:intl/intl.dart';
 
 
 class TestPage extends StatefulWidget {
@@ -17,7 +18,9 @@ class _TestPageState extends State<TestPage> {
 
   final referenceDatabase = FirebaseDatabase.instance;
   final taskfirename = 'TaskTitle';
+  final taskfiredate = '01-12-2000';
   final customController = TextEditingController();
+  final _dateController = TextEditingController();
 
   //final List<String> tasknames = <String>[];
 
@@ -27,6 +30,24 @@ class _TestPageState extends State<TestPage> {
     });
   }*/
 
+  DateTime _dateTime = DateTime.now();
+
+  _selectedTodoData(BuildContext context) async{
+    var _pickedDate = await showDatePicker(
+      context: context,
+      initialDate: _dateTime,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100));
+
+    if(_pickedDate!= null){
+      setState((){
+        _dateTime=_pickedDate;
+        _dateController.text = DateFormat('dd-MM-yyyy').format(_pickedDate);
+
+  });
+  }
+}
+
   Future _asynccreateAlertDialog(BuildContext context) async{
 
     final ref = referenceDatabase.reference();
@@ -34,8 +55,28 @@ class _TestPageState extends State<TestPage> {
 
     var alert = AlertDialog(
       title: Text("Enter Task"),
-      content: TextField(
-        controller: customController,
+      content: Column(
+        children: [
+          TextField(
+            controller: customController,
+            decoration: InputDecoration(
+              labelText: 'Task',
+            ),
+          ),
+          TextField(
+            controller: _dateController,
+            decoration: InputDecoration(
+              labelText: 'Date',
+              hintText: 'Pick a Date',
+              prefixIcon: InkWell(
+                onTap: () {
+                  _selectedTodoData(context);
+                },
+                child: Icon(Icons.calendar_today),
+              )
+            ),
+          ),
+        ],
       ),
       actions: <Widget>[
         MaterialButton(
@@ -46,8 +87,7 @@ class _TestPageState extends State<TestPage> {
             ref
                 .child('TaskNameF')
                 .push()
-                .child(taskfirename)
-                .set(customController.text)
+                .set({'Title':customController.text, 'Date':_dateController.text})
                 .asStream();
 
             Navigator.of(context).pop(customController.text.toString());
@@ -61,6 +101,7 @@ class _TestPageState extends State<TestPage> {
               ),
             );
             customController.clear();
+            _dateController.clear();
             // Find the ScaffoldMessenger in the widget tree
             // and use it to show a SnackBar.
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -111,7 +152,8 @@ class _TestPageState extends State<TestPage> {
                       return new ListTile(
                           trailing: IconButton(icon: Icon(Icons.delete),
                             onPressed: () => _taskName.child(snapshot.key).remove(),),
-                          title: new Text(snapshot.value['TaskTitle'] ?? ''),
+                          title: new Text(snapshot.value['Title']?? 'Error'),
+                        subtitle: new Text(snapshot.value['Date'] ?? 'Error'),
                       );
                     })
                       /*child: ListView.builder(
