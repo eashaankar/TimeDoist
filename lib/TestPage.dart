@@ -5,6 +5,7 @@ import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:intl/intl.dart';
 
 
+
 class TestPage extends StatefulWidget {
 
   TestPage({required this.app});
@@ -21,14 +22,8 @@ class _TestPageState extends State<TestPage> {
   final taskfiredate = '01-12-2000';
   final customController = TextEditingController();
   final _dateController = TextEditingController();
-
-  //final List<String> tasknames = <String>[];
-
-  /*void addItemToList(){
-    setState(() {
-      tasknames.insert(0,customController.text);
-    });
-  }*/
+  var _currentSelectedValue;
+  final deviceTypes = ["Urgent", "Important", "General"];
 
   DateTime _dateTime = DateTime.now();
 
@@ -52,31 +47,60 @@ class _TestPageState extends State<TestPage> {
 
     final ref = referenceDatabase.reference();
 
-
     var alert = AlertDialog(
       title: Text("Enter Task"),
-      content: Column(
-        children: [
-          TextField(
-            controller: customController,
-            decoration: InputDecoration(
-              labelText: 'Task',
+      content: SingleChildScrollView(
+        child: Column(
+          children: [
+            TextField(
+              controller: customController,
+              decoration: InputDecoration(
+                labelText: 'Task',
+              ),
             ),
-          ),
-          TextField(
-            controller: _dateController,
-            decoration: InputDecoration(
-              labelText: 'Date',
-              hintText: 'Pick a Date',
-              prefixIcon: InkWell(
-                onTap: () {
-                  _selectedTodoData(context);
-                },
-                child: Icon(Icons.calendar_today),
-              )
+            TextField(
+              controller: _dateController,
+              decoration: InputDecoration(
+                labelText: 'Date',
+                hintText: 'Pick a Date',
+                prefixIcon: InkWell(
+                  onTap: () {
+                    _selectedTodoData(context);
+                  },
+                  child: Icon(Icons.calendar_today),
+                )
+              ),
             ),
-          ),
-        ],
+        FormField<String>(
+          builder: (FormFieldState<String> state) {
+            return InputDecorator(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0))),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  hint: Text("Select Priority"),
+                  value: _currentSelectedValue,
+                  isDense: true,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _currentSelectedValue = newValue!;
+                    });
+                    print(_currentSelectedValue);
+                  },
+                  items: deviceTypes.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
+            );
+          },
+        ),
+          ],
+        ),
       ),
       actions: <Widget>[
         MaterialButton(
@@ -87,7 +111,7 @@ class _TestPageState extends State<TestPage> {
             ref
                 .child('TaskNameF')
                 .push()
-                .set({'Title':customController.text, 'Date':_dateController.text})
+                .set({'Title':customController.text, 'Date':_dateController.text, 'Category':_currentSelectedValue})
                 .asStream();
 
             Navigator.of(context).pop(customController.text.toString());
@@ -102,6 +126,7 @@ class _TestPageState extends State<TestPage> {
             );
             customController.clear();
             _dateController.clear();
+            //_currentSelectedValue.clear();
             // Find the ScaffoldMessenger in the widget tree
             // and use it to show a SnackBar.
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -123,7 +148,6 @@ class _TestPageState extends State<TestPage> {
   void initState(){
     final FirebaseDatabase database = FirebaseDatabase(app: widget.app);
     _taskName = database.reference().child('TaskNameF');
-
     super.initState();
   }
 
@@ -149,11 +173,21 @@ class _TestPageState extends State<TestPage> {
                         DataSnapshot snapshot,
                         Animation<double> animation,
                         int index){
-                      return new ListTile(
-                          trailing: IconButton(icon: Icon(Icons.delete),
-                            onPressed: () => _taskName.child(snapshot.key).remove(),),
-                          title: new Text(snapshot.value['Title']?? 'Error'),
-                        subtitle: new Text(snapshot.value['Date'] ?? 'Error'),
+                      return Column(
+                        children: [
+                          new ListTile(
+                              trailing: IconButton(icon: Icon(Icons.delete),
+                                onPressed: () => _taskName.child(snapshot.key).remove(),),
+                              title: new Text(snapshot.value['Title']?? 'Error'),
+                            subtitle: Wrap(
+                              children: [
+                                new Text(snapshot.value['Category'] ?? 'Error', textAlign: TextAlign.start,),
+                                new Text(' // '),
+                                new Text(snapshot.value['Date'] ?? 'Error', textAlign: TextAlign.start,)
+                              ],
+                            ),
+                          ),
+                        ],
                       );
                     })
                       /*child: ListView.builder(
@@ -207,3 +241,4 @@ class _TestPageState extends State<TestPage> {
     properties.add(DiagnosticsProperty<DatabaseReference>('_taskName', _taskName));
   }*/
 }
+
