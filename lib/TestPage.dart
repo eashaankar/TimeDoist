@@ -3,8 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:intl/intl.dart';
-
-
+import 'package:filter_list/filter_list.dart';
 
 class TestPage extends StatefulWidget {
 
@@ -22,8 +21,8 @@ class _TestPageState extends State<TestPage> {
   final taskfiredate = '01-12-2000';
   final customController = TextEditingController();
   final _dateController = TextEditingController();
-  var _currentSelectedValue;
-  final deviceTypes = ["Urgent", "Important", "General"];
+  var _currentSelectedValue='General';
+
 
   DateTime _dateTime = DateTime.now();
 
@@ -43,10 +42,47 @@ class _TestPageState extends State<TestPage> {
   }
 }
 
+  void _openFilterDialog() async {
+    await FilterListDialog.display<String>(
+        context,
+        listData: ,
+        selectedListData: selectedCountList,
+        height: 480,
+        headlineText: "Select Count",
+        searchFieldHintText: "Search Here",
+        choiceChipLabel: (item) {
+          return item;
+        },
+        validateSelectedItem: (list, val) {
+          return list!.contains(val);
+        },
+        onItemSearch: (list, text) {
+          if (list!.any((element) =>
+              element.toLowerCase().contains(text.toLowerCase()))) {
+            return list!
+                .where((element) =>
+                element.toLowerCase().contains(text.toLowerCase()))
+                .toList();
+          }
+          else{
+            return [];
+          }
+        },
+        onApplyButtonClick: (list) {
+          if (list != null) {
+            setState(() {
+              selectedCountList = List.from(list);
+            });
+          }
+          Navigator.pop(context);
+        });
+  }
+
   Future _asynccreateAlertDialog(BuildContext context) async{
 
     final ref = referenceDatabase.reference();
 
+    @override
     var alert = AlertDialog(
       title: Text("Enter Task"),
       content: SingleChildScrollView(
@@ -88,7 +124,7 @@ class _TestPageState extends State<TestPage> {
                     });
                     print(_currentSelectedValue);
                   },
-                  items: deviceTypes.map((String value) {
+                  items: <String>['Urgent', 'Important', 'General'].map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
@@ -127,6 +163,7 @@ class _TestPageState extends State<TestPage> {
             customController.clear();
             _dateController.clear();
             //_currentSelectedValue.clear();
+
             // Find the ScaffoldMessenger in the widget tree
             // and use it to show a SnackBar.
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -156,9 +193,12 @@ class _TestPageState extends State<TestPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('To-Do list')),
-      body: SingleChildScrollView(
+      body:
+
+      SingleChildScrollView(
         child: Column(
           children: [
+            
             Center(
               child: Container(
                 width: MediaQuery.of(context).size.width,
