@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/widgets.dart';
+import 'package:to_do_list/Widgets.dart';
 
 class TestPage extends StatefulWidget {
 
@@ -155,7 +157,9 @@ class _TestPageState extends State<TestPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('To-Do list')),
+      drawer: NavDrawer(),
+      appBar: AppBar(
+          title: Text('To-Do list')),
       body:
 
       SingleChildScrollView(
