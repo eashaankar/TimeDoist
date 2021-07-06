@@ -41,7 +41,7 @@ class NavDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => CountDownTimer()),
+                    builder: (context) => DemoApp()),
               );
             }
           ),
