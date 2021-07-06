@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_list/Pomodoro.dart';
 import 'package:to_do_list/TestPage.dart';
 
 class NavDrawer extends StatelessWidget {
+  get app => null;
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -22,7 +25,25 @@ class NavDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.task),
             title: Text('Tasks'),
-            onTap: () => {Navigator.of(context).pop(TestPage)},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TestPage(app: app,)),
+              );
+            }
+            //{Navigator.of(context).pop()},
+          ),
+          ListTile(
+            leading: Icon(Icons.timer),
+            title: Text('Pomodoro'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CountDownTimer()),
+              );
+            }
           ),
         ],
       ),
