@@ -32,6 +32,9 @@ dependencies:
   firebase_core: ^0.5.0
   intl: ^0.16.1
   filter_list: ^1.0.0
+  percent_indicator: ^2.1.5
+  rflutter_alert: ^1.0.8
+  circular_countdown_timer: ^0.2.0
 
 dev_dependencies:
   flutter_test:
@@ -49,9 +52,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  #assets:
-    #- assets/
-    #- assets/lists.jpg
+  assets:
+    - assets/
+    - assets/images/graph.jfif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
