@@ -1,9 +1,21 @@
 import 'dart:async';
+import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:to_do_list/TestPage.dart';
+import 'package:audioplayers/audio_cache.dart';
+
+
+
+String removeUnicodeApostrophes(String strInput) {
+  // First remove the single slash.
+  String strModified = strInput.replaceAll(String.fromCharCode(92), "");
+  // Now, we can replace the rest of the unicode with a proper apostrophe.
+  return strModified.replaceAll("u0027", "\'");
+}
 
 void main() => runApp(MyApp());
 
@@ -28,6 +40,8 @@ class _DemoAppState extends State<DemoApp> {
   CountDownController _controller = CountDownController();
   bool _isPause = true;
 
+  get app => null;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +55,7 @@ class _DemoAppState extends State<DemoApp> {
             child: CircularCountDownTimer(
               width: MediaQuery.of(context).size.width / 2,
               height: MediaQuery.of(context).size.height / 2,
-              duration: 1500,
+              duration: 5,
               initialDuration: 0,
               fillColor: Colors.black54,
               ringColor: Colors.white,
@@ -55,17 +69,29 @@ class _DemoAppState extends State<DemoApp> {
               onComplete: (){
                 Alert(
                     context: context,
-                    title: 'Done',
+                    title: 'Timer\u0027s Up',
                     style: AlertStyle(
-                      isCloseButton: true,
+                      isCloseButton: false,
                       isButtonVisible: false,
                       titleStyle: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontSize: 30.0,
                       ),
                     ),
                     type: AlertType.success
                 ).show();
+                Timer(Duration(seconds: 3), () {
+                  // 5 seconds over, navigate to Page2.
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TestPage(app: app,)),
+                  );
+                });
+                final player = AudioCache();
+                player.play("sound.mp3");
+                _isPause = false;
+                /*playLocalAsset();*/
               },
               textStyle: TextStyle(fontSize: 50.0,color: Colors.black),
             ),
