@@ -35,6 +35,8 @@ dependencies:
   percent_indicator: ^2.1.5
   rflutter_alert: ^1.0.8
   circular_countdown_timer: ^0.2.0
+  audioplayers: ^0.10.0
+
 
 
 dev_dependencies:

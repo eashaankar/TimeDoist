@@ -1,18 +1,14 @@
 import 'dart:async';
+import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:to_do_list/TestPage.dart';
+import 'package:audioplayers/audio_cache.dart';
 
 
-/*AudioPlayer audioPlayer = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
-
-Future<AudioPlayer> playLocalAsset() async {
-  AudioCache cache = new AudioCache();
-  return await cache.play("marimbic.wav");
-}*/
 
 String removeUnicodeApostrophes(String strInput) {
   // First remove the single slash.
@@ -92,6 +88,8 @@ class _DemoAppState extends State<DemoApp> {
                         builder: (context) => TestPage(app: app,)),
                   );
                 });
+                final player = AudioCache();
+                player.play("sound.mp3");
                 _isPause = false;
                 /*playLocalAsset();*/
               },
