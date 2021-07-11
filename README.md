@@ -1,16 +1,30 @@
-# to_do_list
-
-A To-do list app
+# TimeDoist  ![alt text](https://github.com/eashaankar/TimeDoist/blob/master/android/app/src/main/res/mipmap-mdpi/ic_launcher.png) 
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+TimeDoist brings Pomodoro Technique and To-Do List into one place. You can capture and organize tasks into your to-do lists, start a Pomodoro timer and focus on work & study.
 
-A few resources to get you started if this is your first Flutter project:
+## :camera:App Snapshots
+<img src="https://github.com/eashaankar/TimeDoist/blob/master/assets/Snapshots/Menu%20Bar%20Screenshot.png" width="200" height="400" /> <img src="https://github.com/eashaankar/TimeDoist/blob/master/assets/Snapshots/To-Do%20list%20Screenshot.png" width="200" height="400" /> <img src="https://github.com/eashaankar/TimeDoist/blob/master/assets/Snapshots/Pomodoro%20Screenshot.png" width="200" height="400" /> 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## :hammer_and_wrench:How to Use 
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+**Step 1:**
+
+Download or clone this repo by using the link below:
+
+```
+https://github.com/eashaankar/TimeDoist.git
+```
+
+**Step 2:**
+
+Go to project root and execute the following command in console to get the required dependencies: 
+
+```
+flutter pub get 
+```
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
+
