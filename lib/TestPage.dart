@@ -159,7 +159,7 @@ class _TestPageState extends State<TestPage> {
     return Scaffold(
       drawer: NavDrawer(),
       appBar: AppBar(
-          title: Text('To-Do list')),
+          title: Text('TimeDoist')),
       body:
 
       SingleChildScrollView(

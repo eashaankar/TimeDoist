@@ -55,7 +55,7 @@ class _DemoAppState extends State<DemoApp> {
             child: CircularCountDownTimer(
               width: MediaQuery.of(context).size.width / 2,
               height: MediaQuery.of(context).size.height / 2,
-              duration: 5,
+              duration: 1500,
               initialDuration: 0,
               fillColor: Colors.black54,
               ringColor: Colors.white,
