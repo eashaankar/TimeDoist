@@ -4,7 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/widgets.dart';
-import 'package:to_do_list/Widgets.dart';
+import 'package:TimeDoist/Widgets.dart';
 
 class TestPage extends StatefulWidget {
 

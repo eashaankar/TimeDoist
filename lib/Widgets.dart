@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_list/Pomodoro.dart';
-import 'package:to_do_list/TestPage.dart';
+import 'package:TimeDoist/Pomodoro.dart';
+import 'package:TimeDoist/TestPage.dart';
 
 class NavDrawer extends StatelessWidget {
   get app => null;

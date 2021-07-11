@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.eashaankar.to_do_list">
    <application
-        android:label="to_do_list"
+        android:label="TimeDoist"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
