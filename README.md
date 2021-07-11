@@ -14,7 +14,7 @@ TimeDoist brings Pomodoro Technique and To-Do List into one place. You can captu
 Download or clone this repo by using the link below:
 
 ```
-https://github.com/eashaankar/TimeDoist
+https://github.com/eashaankar/TimeDoist.git
 ```
 
 **Step 2:**
